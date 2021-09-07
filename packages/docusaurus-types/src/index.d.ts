@@ -28,6 +28,7 @@ export interface DocusaurusConfig {
   tagline?: string;
   title: string;
   url: string;
+  output: OutPut;
   // trailingSlash undefined = legacy retrocompatible behavior => /file => /file/index.html
   trailingSlash: boolean | undefined;
   i18n: I18nConfig;
@@ -174,6 +175,14 @@ export type BuildOptions = ConfigOptions & {
 export type BuildCLIOptions = BuildOptions & {
   locale?: string;
 };
+
+export interface OutPut {
+  pathinfo: boolean;
+  path: string;
+  filename: string;
+  chunkFilename: string;
+  publicPath: string;
+}
 
 export interface LoadContext {
   siteDir: string;

@@ -82,9 +82,11 @@ export function createBaseConfig(
     routesPaths,
     siteMetadata,
     plugins,
+    siteConfig: {output},
   } = props;
   const totalPages = routesPaths.length;
   const isProd = process.env.NODE_ENV === 'production';
+  const isConfigOutput = output != null;
   const minimizeEnabled = minify && isProd && !isServer;
   const useSimpleCssMinifier = process.env.USE_SIMPLE_CSS_MINIFIER === 'true';
 
@@ -122,15 +124,19 @@ export function createBaseConfig(
         ],
       },
     },
-    output: {
-      pathinfo: false,
-      path: outDir,
-      filename: isProd ? 'assets/js/[name].[contenthash:8].js' : '[name].js',
-      chunkFilename: isProd
-        ? 'assets/js/[name].[contenthash:8].js'
-        : '[name].js',
-      publicPath: baseUrl,
-    },
+    output: isConfigOutput
+      ? output
+      : {
+          pathinfo: false,
+          path: outDir,
+          filename: isProd
+            ? 'assets/js/[name].[contenthash:8].js'
+            : '[name].js',
+          chunkFilename: isProd
+            ? 'assets/js/[name].[contenthash:8].js'
+            : '[name].js',
+          publicPath: baseUrl,
+        },
     // Don't throw warning when asset created is over 250kb
     performance: {
       hints: false,
